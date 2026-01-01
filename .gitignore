@@ -1,0 +1,45 @@
+
+# ===== Go =====
+/bin/
+/dist/
+/tmp/
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+*.test
+*.out
+
+# ===== Go Workspace =====
+go.work
+go.work.sum
+
+# ===== Environment =====
+.env
+.env.local
+.env.production
+
+# ===== IDE / Editor =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*.swn
+
+# ===== OS =====
+.DS_Store
+Thumbs.db
+
+# ===== Logs =====
+*.log
+
+# ===== Docker =====
+docker-data/
+mysql-data/
+
+# Docker override files
+docker-compose.override.yml
+
+# ===== Build cache =====
+.cache/
