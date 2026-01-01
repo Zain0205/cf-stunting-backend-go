@@ -166,5 +166,3 @@ Dikembangkan untuk penelitian sistem diagnosis stunting berbasis **Certainty Fac
 
 ---
 
-Jika ingin lanjut ke tahap berikutnya:
-👉 **JWT Auth + Role Middleware**
