@@ -47,12 +47,18 @@ func Login(c *fiber.Ctx) error {
 		return utils.Error(c, 400, "Invalid request body")
 	}
 
-	token, err := services.Login(req.Phone, req.Password)
+	token, user, err := services.Login(req.Phone, req.Password)
 	if err != nil {
 		return utils.Error(c, 401, err.Error())
 	}
 
 	return utils.Success(c, fiber.Map{
 		"token": token,
+		"user": fiber.Map{
+			"id":       user.ID,
+			"name":     user.Name,
+			"phone":    user.PhoneNumber,
+			"category": user.Category,
+		},
 	})
 }

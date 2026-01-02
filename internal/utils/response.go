@@ -2,7 +2,7 @@ package utils
 
 import "github.com/gofiber/fiber/v2"
 
-func Success(c *fiber.Ctx, data interface{}) error {
+func Success(c *fiber.Ctx, data any) error {
 	return c.Status(200).JSON(fiber.Map{
 		"success": true,
 		"data":    data,
