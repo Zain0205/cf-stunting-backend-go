@@ -28,14 +28,14 @@ func Register(name, phone, password string, category models.UserCategory) error 
 	return repositories.CreateUser(user)
 }
 
-func Login(phone, password string) (string, error) {
+func Login(phone, password string) (string, *models.User, error) {
 	user, err := repositories.GetUserByPhone(phone)
 	if err != nil {
-		return "", errors.New("invalid phone or password")
+		return "", nil, errors.New("invalid phone or password")
 	}
 
 	if err := utils.CheckPassword(user.Password, password); err != nil {
-		return "", errors.New("invalid phone or password")
+		return "", nil, errors.New("invalid phone or password")
 	}
 
 	claims := jwt.MapClaims{
@@ -45,5 +45,10 @@ func Login(phone, password string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString([]byte(config.JWTSecret()))
+	signed, err := token.SignedString([]byte(config.JWTSecret()))
+	if err != nil {
+		return "", nil, err
+	}
+
+	return signed, user, nil
 }
