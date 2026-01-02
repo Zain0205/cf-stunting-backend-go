@@ -5,6 +5,8 @@ import (
 
 	"github.com/Zain0205/cf-stunting-backend-go/internal/config"
 	"github.com/Zain0205/cf-stunting-backend-go/internal/database"
+	"github.com/Zain0205/cf-stunting-backend-go/internal/handlers"
+	"github.com/Zain0205/cf-stunting-backend-go/internal/middlewares"
 	"github.com/Zain0205/cf-stunting-backend-go/internal/models"
 
 	"github.com/gofiber/fiber/v2"
@@ -36,6 +38,15 @@ func main() {
 	)
 
 	app := fiber.New()
+
+	app.Post("/auth/register", handlers.Register)
+	app.Post("/auth/login", handlers.Login)
+
+	protected := app.Group("/api", middlewares.JWTProtected())
+	protected.Get("/profile", func(c *fiber.Ctx) error {
+		return c.JSON(fiber.Map{"message": "ok"})
+	})
+
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"status": "CF Stunting API running",
