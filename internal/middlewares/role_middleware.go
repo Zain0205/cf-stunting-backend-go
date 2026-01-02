@@ -6,8 +6,10 @@ import (
 
 func OnlyCategory(category string) fiber.Handler {
 	return func(c *fiber.Ctx) error {
-		user := c.Locals("user").(*map[string]interface{})
-		if (*user)["category"] != category {
+		// Tambahkan pengecekan 'ok' agar lebih aman
+		user, ok := c.Locals("user").(*map[string]any)
+
+		if !ok || (*user)["category"] != category {
 			return c.Status(403).JSON(fiber.Map{
 				"success": false,
 				"message": "Forbidden for this category",
