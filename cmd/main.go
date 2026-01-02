@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 
@@ -12,13 +13,15 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 func main() {
-	// Load environment variables
+	shouldSeed := flag.Bool("seed", false, "Run database seeder")
+	flag.Parse()
+
 	config.LoadEnv()
 
-	// Build DSN and connect database
 	dsn := fmt.Sprintf(
 		"%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
 		config.Get("DB_USER"),
@@ -27,9 +30,10 @@ func main() {
 		config.Get("DB_PORT"),
 		config.Get("DB_NAME"),
 	)
+
 	database.Connect(dsn)
 
-	// Auto migrate models
+	log.Println("🔄 Running migrations...")
 	if err := database.DB.AutoMigrate(
 		&models.User{},
 		&models.Category{},
@@ -40,17 +44,18 @@ func main() {
 		&models.DiagnosisAnswer{},
 		&models.DiagnosisDomain{},
 	); err != nil {
-		log.Fatal("Failed to auto-migrate database:", err)
+		log.Fatal("❌ Migration failed:", err)
+	}
+	log.Println("✅ Migrations completed!")
+
+	if *shouldSeed {
+		log.Println("🌱 Seeding database...")
+		if err := database.SeedAll(database.DB); err != nil {
+			log.Fatal("❌ Failed to seed database:", err)
+		}
+		log.Println("✅ Database seeded successfully!")
 	}
 
-	// Run database seeder
-	log.Println("🌱 Seeding database...")
-	if err := database.SeedAll(database.DB); err != nil {
-		log.Fatal("Failed to seed database:", err)
-	}
-	log.Println("✅ Database seeded successfully!")
-
-	// Initialize Fiber app
 	app := fiber.New(fiber.Config{
 		ErrorHandler: func(c *fiber.Ctx, err error) error {
 			code := fiber.StatusInternalServerError
@@ -64,7 +69,6 @@ func main() {
 		},
 	})
 
-	// Middlewares
 	app.Use(logger.New())
 	app.Use(cors.New())
 
@@ -74,11 +78,20 @@ func main() {
 
 	// Protected routes
 	protected := app.Group("/api", middlewares.JWTProtected())
+
+	// Question endpoints
+	protected.Get("/questions", handlers.GetQuestions)
+	protected.Get("/questions/:code", handlers.GetQuestionDetail)
+
 	protected.Get("/profile", func(c *fiber.Ctx) error {
-		return c.JSON(fiber.Map{"message": "ok"})
+		user := c.Locals("user").(*jwt.Token)
+		claims := user.Claims.(jwt.MapClaims)
+		return c.JSON(fiber.Map{
+			"user_id":  claims["user_id"],
+			"category": claims["category"],
+		})
 	})
 
-	// Health check / root
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"status":  "CF Stunting API running",
@@ -86,6 +99,6 @@ func main() {
 		})
 	})
 
-	// Start server
+	log.Println("🚀 Server starting on port 8080...")
 	log.Fatal(app.Listen("0.0.0.0:8080"))
 }
