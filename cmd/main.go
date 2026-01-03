@@ -82,6 +82,8 @@ func main() {
 	// Question endpoints
 	protected.Get("/questions", handlers.GetQuestions)
 	protected.Get("/questions/:code", handlers.GetQuestionDetail)
+	protected.Post("/diagnosis", handlers.CreateDiagnosis)
+	protected.Get("/diagnosis", handlers.GetDiagnosisHistory)
 
 	protected.Get("/profile", func(c *fiber.Ctx) error {
 		user := c.Locals("user").(*jwt.Token)
