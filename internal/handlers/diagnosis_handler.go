@@ -32,3 +32,20 @@ func CreateDiagnosis(c *fiber.Ctx) error {
 		"data":    diag,
 	})
 }
+
+func GetDiagnosisHistory(c *fiber.Ctx) error {
+	user := c.Locals("user").(*jwt.Token)
+	claims := user.Claims.(jwt.MapClaims)
+	userID := uint(claims["user_id"].(float64))
+
+	service := services.NewDiagnosisService()
+	history, err := service.GetHistoryByUser(userID)
+	if err != nil {
+		return err
+	}
+
+	return c.JSON(fiber.Map{
+		"success": true,
+		"data":    history,
+	})
+}
