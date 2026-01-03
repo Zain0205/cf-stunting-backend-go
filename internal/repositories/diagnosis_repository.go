@@ -38,3 +38,16 @@ func (r *DiagnosisRepository) CreateDiagnosis(
 		return nil
 	})
 }
+
+func (r *DiagnosisRepository) GetByUserID(userID uint) ([]models.Diagnosis, error) {
+	var diagnoses []models.Diagnosis
+
+	err := r.DB.
+		Where("user_id = ?", userID).
+		Order("created_at DESC").
+		Preload("Answers").
+		Preload("Domains").
+		Find(&diagnoses).Error
+
+	return diagnoses, err
+}
