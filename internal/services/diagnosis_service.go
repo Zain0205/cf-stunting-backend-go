@@ -93,3 +93,7 @@ func (s *DiagnosisService) CreateDiagnosis(
 
 	return &diag, nil
 }
+
+func (s *DiagnosisService) GetHistoryByUser(userID uint) ([]models.Diagnosis, error) {
+	return s.Repo.GetByUserID(userID)
+}
