@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"time"
 
 	"github.com/Zain0205/cf-stunting-backend-go/internal/config"
 	"github.com/Zain0205/cf-stunting-backend-go/internal/models"
@@ -41,7 +40,6 @@ func Login(phone, password string) (string, *models.User, error) {
 	claims := jwt.MapClaims{
 		"user_id":  user.ID,
 		"category": user.Category,
-		"exp":      time.Now().Add(config.JWTExpire()).Unix(),
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
