@@ -60,7 +60,7 @@ func GetQuestionsByUserCategory(categoryCode string) ([]DomainWithQuestionsRespo
 				options = append(options, AnswerOptionResponse{
 					AnswerKey:  m.AnswerKey,
 					CFEvidence: m.CFEvidence,
-					Label:      getAnswerLabel(categoryCode, q.Code, m.AnswerKey),
+					Label:      m.Label,
 				})
 			}
 
@@ -86,48 +86,6 @@ func GetQuestionsByUserCategory(categoryCode string) ([]DomainWithQuestionsRespo
 	return response, nil
 }
 
-// getAnswerLabel - Generate label untuk option jawaban
-func getAnswerLabel(categoryCode, questionCode, answerKey string) string {
-	// 1. Cek jawaban standar (Boolean/Common)
-	standardLabels := map[string]string{
-		"YA":          "Ya",
-		"TIDAK":       "Tidak",
-		"TIDAK_TAHU":  "Tidak Tahu",
-		"TIDAK_INGAT": "Tidak Ingat",
-	}
-
-	if label, ok := standardLabels[answerKey]; ok {
-		return label
-	}
-
-	// 2. Mapping spesifik berdasarkan Kategori dan Kode Pertanyaan
-	// Pastikan struktur map benar: map[Category][QuestionCode][AnswerKey]
-	labelMap := map[string]map[string]map[string]string{
-		"PRAKONSEPSI": {
-			"A1": {"0": "Tidak pernah", "1": "1 kali", "2": "2 kali", "3": "≥ 3 kali"},
-			"A2": {"0": "Setiap hari", "1": "4-6 hari", "2": "1-3 hari", "3": "Tidak pernah"},
-			"A3": {"0": "≥ 4 tablet", "1": "2-3 tablet", "2": "1 tablet", "3": "Tidak pernah"},
-			"A4": {"0": "Selalu", "1": "Sering", "2": "Jarang", "3": "Tidak pernah"},
-			"A5": {"0": "Ada rencana jelas", "1": "Rencana belum tertulis", "2": "Pernah dengar", "3": "Tidak tahu"},
-		},
-		"PERNAH_MELAHIRKAN": {
-			"A1": {"0": "≥ 6 bulan", "1": "4-5 bulan", "2": "1-3 bulan", "3": "Tidak ASI eksklusif"},
-			"A2": {"0": "≥ 6 hari", "1": "4-5 hari", "2": "2-3 hari", "3": "0-1 hari"},
-			// ... tambahkan lainnya sesuai laporan kemajuan hal 7-8 [cite: 82, 83]
-		},
-	}
-
-	if cat, ok := labelMap[categoryCode]; ok {
-		if q, ok := cat[questionCode]; ok {
-			if label, ok := q[answerKey]; ok {
-				return label
-			}
-		}
-	}
-
-	return "Opsi " + answerKey
-}
-
 // GetQuestionDetail - Ambil detail satu pertanyaan
 func GetQuestionDetail(categoryCode, questionCode string) (*QuestionResponse, error) {
 	question, err := repositories.GetQuestionByCode(categoryCode, questionCode)
@@ -145,7 +103,7 @@ func GetQuestionDetail(categoryCode, questionCode string) (*QuestionResponse, er
 		options = append(options, AnswerOptionResponse{
 			AnswerKey:  m.AnswerKey,
 			CFEvidence: m.CFEvidence,
-			Label:      getAnswerLabel(categoryCode, question.Code, m.AnswerKey),
+			Label:      m.Label,
 		})
 	}
 
