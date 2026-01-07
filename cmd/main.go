@@ -50,7 +50,7 @@ func main() {
 
 	if *shouldSeed {
 		log.Println("🌱 Seeding database...")
-		if err := database.SeedAll(database.DB); err != nil {
+		if err := database.SeedDatabase(database.DB); err != nil {
 			log.Fatal("❌ Failed to seed database:", err)
 		}
 		log.Println("✅ Database seeded successfully!")
