@@ -355,64 +355,64 @@ func seedAnswerMappings(db *gorm.DB) error {
 		{"PERNAH_MELAHIRKAN", "C2", "3", "Sering (>10)", 1.0},
 
 		// ===== REMAJA 19 A1-A4 (Ya/Tidak/Tidak Tahu) =====
-		{"REMAJA_19", "A1", "YA", "Ya", 1.0},
-		{"REMAJA_19", "A1", "TIDAK", "Tidak", 0.0},
-		{"REMAJA_19", "A1", "TIDAK_TAHU", "Tidak tahu", 0.4},
+		{"REMAJA_19", "A1", "0", "Ya", 1.0},
+		{"REMAJA_19", "A1", "1", "Tidak", 0.0},
+		{"REMAJA_19", "A1", "2", "Tidak tahu", 0.4},
 
-		{"REMAJA_19", "A2", "YA", "Ya", 1.0},
-		{"REMAJA_19", "A2", "TIDAK", "Tidak", 0.0},
-		{"REMAJA_19", "A2", "TIDAK_TAHU", "Tidak tahu", 0.4},
+		{"REMAJA_19", "A2", "0", "Ya", 1.0},
+		{"REMAJA_19", "A2", "1", "Tidak", 0.0},
+		{"REMAJA_19", "A2", "2", "Tidak tahu", 0.4},
 
-		{"REMAJA_19", "A3", "YA", "Ya", 1.0},
-		{"REMAJA_19", "A3", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "A3", "0", "Ya", 1.0},
+		{"REMAJA_19", "A3", "1", "Tidak", 0.0},
 
-		{"REMAJA_19", "A4", "YA", "Ya", 1.0},
-		{"REMAJA_19", "A4", "TIDAK", "Tidak", 0.0},
-		{"REMAJA_19", "A4", "TIDAK_TAHU", "Tidak tahu", 0.4},
+		{"REMAJA_19", "A4", "0", "Ya", 1.0},
+		{"REMAJA_19", "A4", "1", "Tidak", 0.0},
+		{"REMAJA_19", "A4", "2", "Tidak tahu", 0.4},
 
 		// ===== REMAJA 19 B1 (DIBALIK) =====
-		{"REMAJA_19", "B1", "YA", "Ya", 1.0},
-		{"REMAJA_19", "B1", "TIDAK", "Tidak", 0.2},
-		{"REMAJA_19", "B1", "TIDAK_INGAT", "Tidak ingat", 0.6},
+		{"REMAJA_19", "B1", "0", "Ya", 1.0},
+		{"REMAJA_19", "B1", "1", "Tidak", 0.2},
+		{"REMAJA_19", "B1", "2", "Tidak ingat", 0.6},
 
 		// ===== REMAJA 19 B2-B4 =====
-		{"REMAJA_19", "B2", "YA", "Ya", 0.8},
-		{"REMAJA_19", "B2", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "B2", "0", "Ya", 0.8},
+		{"REMAJA_19", "B2", "1", "Tidak", 0.0},
 
-		{"REMAJA_19", "B3", "YA", "Ya", 0.8},
-		{"REMAJA_19", "B3", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "B3", "0", "Ya", 0.8},
+		{"REMAJA_19", "B3", "1", "Tidak", 0.0},
 
-		{"REMAJA_19", "B4", "YA", "Ya", 0.8},
-		{"REMAJA_19", "B4", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "B4", "0", "Ya", 0.8},
+		{"REMAJA_19", "B4", "1", "Tidak", 0.0},
 
 		// ===== REMAJA 19 B5 =====
-		{"REMAJA_19", "B5", "YA", "Ya", 0.8},
-		{"REMAJA_19", "B5", "TIDAK", "Tidak", 0.0},
-		{"REMAJA_19", "B5", "TIDAK_TAHU", "Tidak tahu", 0.4},
+		{"REMAJA_19", "B5", "0", "Ya", 0.8},
+		{"REMAJA_19", "B5", "1", "Tidak", 0.0},
+		{"REMAJA_19", "B5", "2", "Tidak tahu", 0.4},
 
 		// ===== REMAJA 19 B6 =====
-		{"REMAJA_19", "B6", "YA", "Ya", 0.8},
-		{"REMAJA_19", "B6", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "B6", "0", "Ya", 0.8},
+		{"REMAJA_19", "B6", "1", "Tidak", 0.0},
 
 		// ===== REMAJA 19 C1-C2 =====
-		{"REMAJA_19", "C1", "YA", "Ya", 0.8},
-		{"REMAJA_19", "C1", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "C1", "0", "Ya", 0.8},
+		{"REMAJA_19", "C1", "1", "Tidak", 0.0},
 
-		{"REMAJA_19", "C2", "YA", "Ya", 0.8},
-		{"REMAJA_19", "C2", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "C2", "0", "Ya", 0.8},
+		{"REMAJA_19", "C2", "1", "Tidak", 0.0},
 
 		// ===== REMAJA 19 C3 (DIBALIK) =====
-		{"REMAJA_19", "C3", "YA", "Ya", 1.0},
-		{"REMAJA_19", "C3", "TIDAK", "Tidak", 0.2},
-		{"REMAJA_19", "C3", "TIDAK_TAHU", "Tidak tahu", 0.6},
+		{"REMAJA_19", "C3", "0", "Ya", 1.0},
+		{"REMAJA_19", "C3", "1", "Tidak", 0.2},
+		{"REMAJA_19", "C3", "2", "Tidak tahu", 0.6},
 
 		// ===== REMAJA 19 D1-D2 (DIBALIK) =====
-		{"REMAJA_19", "D1", "YA", "Ya", 1.0},
-		{"REMAJA_19", "D1", "TIDAK", "Tidak", 0.2},
-		{"REMAJA_19", "D1", "TIDAK_TAHU", "Tidak tahu", 0.6},
+		{"REMAJA_19", "D1", "0", "Ya", 1.0},
+		{"REMAJA_19", "D1", "1", "Tidak", 0.2},
+		{"REMAJA_19", "D1", "2", "Tidak tahu", 0.6},
 
-		{"REMAJA_19", "D2", "YA", "Ya", 1.0},
-		{"REMAJA_19", "D2", "TIDAK", "Tidak", 0.2},
+		{"REMAJA_19", "D2", "0", "Ya", 1.0},
+		{"REMAJA_19", "D2", "1", "Tidak", 0.2},
 
 		// ===== REMAJA 19 D3 (DIBALIK) =====
 		{"REMAJA_19", "D3", "0", "Selalu", 1.0},
@@ -447,17 +447,17 @@ func seedAnswerMappings(db *gorm.DB) error {
 		{"REMAJA_19", "E5", "3", ">10 kali", 1.0},
 
 		// ===== REMAJA 19 F1-F4 =====
-		{"REMAJA_19", "F1", "YA", "Ya", 0.8},
-		{"REMAJA_19", "F1", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "F1", "0", "Ya", 0.8},
+		{"REMAJA_19", "F1", "1", "Tidak", 0.0},
 
-		{"REMAJA_19", "F2", "YA", "Ya", 0.8},
-		{"REMAJA_19", "F2", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "F2", "0", "Ya", 0.8},
+		{"REMAJA_19", "F2", "1", "Tidak", 0.0},
 
-		{"REMAJA_19", "F3", "YA", "Ya", 0.8},
-		{"REMAJA_19", "F3", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "F3", "0", "Ya", 0.8},
+		{"REMAJA_19", "F3", "1", "Tidak", 0.0},
 
-		{"REMAJA_19", "F4", "YA", "Ya", 0.8},
-		{"REMAJA_19", "F4", "TIDAK", "Tidak", 0.0},
+		{"REMAJA_19", "F4", "0", "Ya", 0.8},
+		{"REMAJA_19", "F4", "1", "Tidak", 0.0},
 	}
 
 	for _, am := range answerMappings {
