@@ -1,6 +1,9 @@
 package services
 
 import (
+	"errors"
+	"time"
+
 	"github.com/Zain0205/cf-stunting-backend-go/internal/database"
 	"github.com/Zain0205/cf-stunting-backend-go/internal/models"
 	"github.com/Zain0205/cf-stunting-backend-go/internal/repositories"
@@ -28,6 +31,28 @@ func (s *DiagnosisService) CreateDiagnosis(
 	category string,
 	answers []AnswerInput,
 ) (*models.Diagnosis, error) {
+	// =========================
+	// CEK DIAGNOSIS TERAKHIR
+	// =========================
+
+	lastDiag, err := s.Repo.GetLastDiagnosisByUser(userID)
+	if err != nil {
+		return nil, err
+	}
+
+	if lastDiag != nil {
+
+		nextAllowed := lastDiag.CreatedAt.AddDate(0, 0, 7)
+
+		if time.Now().Before(nextAllowed) {
+			return nil, errors.New("diagnosis hanya bisa dilakukan 1 kali setiap 7 hari")
+		}
+	}
+
+	// =========================
+	// PROSES DIAGNOSIS
+	// =========================
+
 	var diag models.Diagnosis
 	diag.UserID = userID
 	diag.Category = category
@@ -38,13 +63,16 @@ func (s *DiagnosisService) CreateDiagnosis(
 	for _, ans := range answers {
 
 		var q models.Question
-		if err := database.DB.Preload("Domain").
+
+		if err := database.DB.
+			Preload("Domain").
 			Where("code = ?", ans.QuestionCode).
 			First(&q).Error; err != nil {
 			return nil, err
 		}
 
 		var mapping models.AnswerMapping
+
 		if err := database.DB.
 			Where("question_id = ? AND answer_key = ?", q.ID, ans.AnswerKey).
 			First(&mapping).Error; err != nil {
@@ -52,6 +80,7 @@ func (s *DiagnosisService) CreateDiagnosis(
 		}
 
 		evidence := mapping.CFEvidence
+
 		if q.IsReverse {
 			evidence = 1 - evidence
 		}
@@ -71,6 +100,7 @@ func (s *DiagnosisService) CreateDiagnosis(
 	var domainRecords []models.DiagnosisDomain
 
 	for domain, values := range domainBuckets {
+
 		cf := CombineCF(values)
 		cfDomains[domain] = cf
 
