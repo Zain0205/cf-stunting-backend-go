@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"errors"
+
 	"github.com/Zain0205/cf-stunting-backend-go/internal/models"
 	"gorm.io/gorm"
 )
@@ -50,4 +52,23 @@ func (r *DiagnosisRepository) GetByUserID(userID uint) ([]models.Diagnosis, erro
 		Find(&diagnoses).Error
 
 	return diagnoses, err
+}
+
+func (r *DiagnosisRepository) GetLastDiagnosisByUser(userID uint) (*models.Diagnosis, error) {
+	var diag models.Diagnosis
+
+	err := r.DB.
+		Where("user_id = ?", userID).
+		Order("created_at DESC").
+		First(&diag).Error
+	if err != nil {
+
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, nil
+		}
+
+		return nil, err
+	}
+
+	return &diag, nil
 }
